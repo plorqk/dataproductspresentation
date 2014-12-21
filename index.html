@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Shiny MPG Predictor</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Simple Shiny MPG Predictor">
+  <meta name="author" content="Kevin Moore">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Simple Shiny MPG Predictor</h1>
+    <h2></h2>
+    <p>Kevin Moore<br/>Data Scientist</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Design</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Uses the mtcars dataset from the dataset library in R</p>
+
+<p>Predicts miles per gallon based on a car&#39;s horse power or weight</p>
+
+<p>Uses simple linear models</p>
+
+<ul>
+<li>mpg ~ hp</li>
+<li>mpg ~ wt</li>
+</ul>
+
+<p>No they&#39;re not the most accurate but they were simple to implement for the assignment</p>
+
+<p>Making it easier for the user
+The data set stored car weights in lbs/1000.  This app allows you to enter the full weight.</p>
+
+<ul>
+<li>User enters 2500 lbs, app changes it to fit the measuring like the data set 2.5 (lbs/1000)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Limitations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Limited to max of 440 HP as the model breaks down and starts predicting negative values beyond that.</p>
+
+<p>The application takes that into consideration</p>
+
+<ul>
+<li>If the prediction is negative it returns 0 (you can&#39;t have negative mpg!)</li>
+</ul>
+
+<p>The choice of 7000 pounds was somewhat abitrary.  The maximum weight in the dataset is around 5450 pounds.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The App Code (mostly)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(datasets)
+data(mtcars)
+hpfit &lt;- lm(mpg ~ hp,data=mtcars)
+wtfit &lt;- lm(mpg ~ wt,data=mtcars)
+hptest &lt;- 140
+wttest &lt;- 1500
+hppred &lt;- predict(hpfit,data.frame(hp=hptest))
+wtpred &lt;- predict(wtfit,data.frame(wt=wttest/1000))
+print(paste(&quot;Predicted test HP value:&quot;,round(hppred,1)))
+</code></pre>
+
+<pre><code>## [1] &quot;Predicted test HP value: 20.5&quot;
+</code></pre>
+
+<pre><code class="r">print(paste(&quot;Predicted test Weight value:&quot;,round(wtpred,1)))
+</code></pre>
+
+<pre><code>## [1] &quot;Predicted test Weight value: 29.3&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>References and More Information</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Link to the app</p>
+
+<ul>
+<li><a href="https://plorqk.shinyapps.io/project">Simple Shiny MPG Predictor</a></li>
+</ul>
+
+<p>The dataset </p>
+
+<ul>
+<li><a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html">mtcars</a> </li>
+</ul>
+
+<p>Libraries </p>
+
+<ul>
+<li><a href="http://shiny.rstudio.com/">Shiny</a> </li>
+<li><a href="http://ramnathv.github.io/slidify/">Slidify</a> </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Design'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Limitations'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The App Code (mostly)'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='References and More Information'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  <script src="shared/slider/js/jquery.slider.min.js"></script>
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="shared/slider/css/jquery.slider.min.css"></link>
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
